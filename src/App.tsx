@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import GlobalStyles from './styles/GlobalStyles.ts';
 
 const H1 = styled.h1`
   font-size: 30px;
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <div>
+      <GlobalStyles />
       <H1>The Wild Oasis</H1>
       <Button>Check in</Button>
       <Input type="number" placeholder="Guess the number"/>
