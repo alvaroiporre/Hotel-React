@@ -8,7 +8,11 @@ function App() {
   return (
     <div>
       <GlobalStyles />
-      <Heading>The Wild Oasis</Heading>
+      <Heading as='h1'>The Wild Oasis</Heading>
+      <Heading as='h2'>Check in and Out</Heading>
+      <Button onClick={() => alert('asdfa')}>Check in</Button>
+      <Input type="number" placeholder="Guess the number"/>
+      <Heading as='h3'> Say hello</Heading>
       <Button onClick={() => alert('asdfa')}>Check in</Button>
       <Input type="number" placeholder="Guess the number"/>
     </div>
