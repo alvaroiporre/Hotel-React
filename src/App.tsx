@@ -14,7 +14,7 @@ function App() {
         <Row type='horizontal'>
           <Heading as='h2'>Check in and Out</Heading>
           <div>
-            <Button onClick={() => alert('asdfa')}>Check in</Button>
+            <Button variation='primary' size='medium' onClick={() => alert('asdfa')}>Check in</Button>
             <Input type="number" placeholder="Guess the number" />
           </div>
         </Row>
@@ -23,7 +23,7 @@ function App() {
           <Heading as='h3'> Say hello</Heading>
           <form action="">
 
-            <Button onClick={() => alert('asdfa')}>Check in</Button>
+            <Button variation='secondary' size='small' onClick={() => alert('asdfa')}>Check in</Button>
             <Input type="number" placeholder="Guess the number" />
           </form>
         </Row>
