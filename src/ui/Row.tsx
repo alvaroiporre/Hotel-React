@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface rowProps {
-  type: string;
+  type?: string;
 }
 
 const Row = styled.div`
