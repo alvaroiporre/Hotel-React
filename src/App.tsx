@@ -5,6 +5,7 @@ import Cabins from "./pages/Cabins";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
+import Login from "./pages/Login";
 const App = () => {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='users' element={<Users />}/>
         <Route path='settings' element={<Settings />}/>
         <Route path='account' element={<Account />}/>
+        <Route path='login' element={<Login />}/>
       </Routes>
     </BrowserRouter>
   );
