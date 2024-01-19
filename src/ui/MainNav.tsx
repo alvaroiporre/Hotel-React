@@ -44,3 +44,13 @@ const Link = styled.a`
     color: var(--color-brand-600);
   }
 `;
+
+const MainNav = () => {
+  return (
+    <NavList>
+      <Link />
+    </NavList>
+  )
+}
+
+export default MainNav
