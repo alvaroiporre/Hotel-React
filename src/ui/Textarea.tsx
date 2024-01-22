@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-const Textarea = styled.textarea`
+interface ITextarea {
+  type: string;
+  id: string;
+}
+
+const Textarea = styled.textarea<ITextarea>`
   padding: 0.8rem 1.2rem;
   border: 1px solid var(--color-grey-300);
   border-radius: 5px;
