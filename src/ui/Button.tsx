@@ -61,7 +61,7 @@ export const variations: Variations = {
 interface ButtonProps {
   variation?: keyof Variations;
   size?: keyof Sizes;
-  onClick?: React.MouseEvent;
+  onClick?: React.MouseEventHandler;
 }
 const Button = styled.button`
   border: none;
