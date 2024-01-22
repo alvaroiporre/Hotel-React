@@ -1,6 +1,7 @@
+import ICabin from "../features/cabins/ICabin";
 import supabase from "./supabase";
 
-export const getCabins = async () => {
+export const getCabins = async (): Promise<ICabin[]> => {
   const { data, error } = await supabase
   .from('cabins')
   .select('*');
@@ -12,3 +13,14 @@ export const getCabins = async () => {
   return data;
 };
 
+export const deleteCabin = async (id: number): Promise<ICabin | null> => {
+  const { data , error } = await supabase
+    .from('cabins')
+    .delete()
+    .eq("id", id);
+
+    if (error) {
+      throw new Error("Cabin could not be deleted");
+    }
+    return data;
+};
