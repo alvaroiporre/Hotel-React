@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 interface IForm {
-  type?: string
+  type?: string;
+  onSubmit?: React.FormEventHandler
 }
 
 const Form = styled.form<IForm>`
