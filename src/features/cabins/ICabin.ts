@@ -1,5 +1,5 @@
 export default interface ICabin {
-  id: number;
+  id?: number;
   name: string;
   max_capacity: number;
   regular_price: number;

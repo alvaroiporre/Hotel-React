@@ -13,6 +13,19 @@ export const getCabins = async (): Promise<ICabin[]> => {
   return data;
 };
 
+export const createCabin = async (newCabin: ICabin) => {
+  const { data, error } = await supabase
+  .from('cabins')
+  .insert([
+    newCabin,
+  ])
+  .select()
+  if (error) {
+    throw new Error("Cabin could not be deleted");
+  }
+  return data;
+};
+
 export const deleteCabin = async (id: number): Promise<ICabin | null> => {
   const { data , error } = await supabase
     .from('cabins')
