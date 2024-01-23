@@ -1,39 +1,54 @@
 import ICabin from "../features/cabins/ICabin";
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 
 export const getCabins = async (): Promise<ICabin[]> => {
-  const { data, error } = await supabase
-  .from('cabins')
-  .select('*');
+  const { data, error } = await supabase.from("cabins").select("*");
 
-  if(error) {
+  if (error) {
     console.error(error);
-    throw new Error('Cabins coud not be loaded');
+    throw new Error("Cabins coud not be loaded");
   }
   return data;
 };
 
 export const createCabin = async (newCabin: ICabin) => {
-  const { data, error } = await supabase
-  .from('cabins')
-  .insert([
-    newCabin,
-  ])
-  .select()
+  const imageName = `${Math.random()}-${newCabin.image?.name}`.replaceAll('/','');
+  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  console.log(imagePath);
+  // 1. Create cabin
+  const { data, error }: {[key: string]: any;} = await supabase
+    .from("cabins")
+    .insert([
+      {
+        ...newCabin,
+        image: imagePath,
+      },
+    ])
+    .select();
   if (error) {
     throw new Error("Cabin could not be deleted");
   }
+
+  // 2. Upload Image
+
+  const { error: storageError } = await supabase.storage
+    .from("cabin-images")
+    .upload(imageName, newCabin.image);
+  
+  if (storageError) {
+    await supabase.from("cabins").delete().eq("id", data.id);
+    console.error('Storage Error: ', storageError);
+    throw new Error("Cabins image coud not be uploaded and the cabin was not created");
+  }
+
   return data;
 };
 
 export const deleteCabin = async (id: number): Promise<ICabin | null> => {
-  const { data , error } = await supabase
-    .from('cabins')
-    .delete()
-    .eq("id", id);
+  const { data, error } = await supabase.from("cabins").delete().eq("id", id);
 
-    if (error) {
-      throw new Error("Cabin could not be deleted");
-    }
-    return data;
+  if (error) {
+    throw new Error("Cabin could not be deleted");
+  }
+  return data;
 };

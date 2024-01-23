@@ -4,6 +4,6 @@ export default interface ICabin {
   max_capacity: number;
   regular_price: number;
   discount: 0;
-  image: string;
+  image: string | any;
   description: string;
 }
