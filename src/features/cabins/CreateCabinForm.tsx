@@ -10,8 +10,14 @@ import ICabin from "./ICabin";
 import toast from "react-hot-toast";
 import FormRow, { StyledFormRow } from "../../ui/FormRow";
 
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+
+function CreateCabinForm({ cabinToEdit }:{cabinToEdit: ICabin}) {
+  const isEditSession = cabinToEdit !== undefined;
+
+
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: isEditSession ? cabinToEdit : {},
+  });
   const { errors } = formState;
   const queryClient = useQueryClient();
   const { mutate, isLoading: isCreating } = useMutation({
@@ -26,11 +32,11 @@ function CreateCabinForm() {
     onError: (err: Error) => toast.error(err.message),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data) => {
     //console.log(data);
     mutate({...data, image: data.image[0]});
   };
-  const onError = (errors: any) => {
+  const onError = (errors) => {
     console.log(errors);
   };
 
@@ -78,7 +84,7 @@ function CreateCabinForm() {
 
       <FormRow label="Cabin photo" error={errors?.image?.message as string}>
         <FileInput id="image" accept="image/*" disabled={isCreating} {...register("image", {
-          required: "This field is required"
+          required: isEditSession? false:"This field is required"
         })} />
       </FormRow>
 
@@ -87,7 +93,7 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset" disabled={isCreating} >
           Cancel
         </Button>
-        <Button disabled={isCreating}>Edit cabin</Button>
+        <Button disabled={isCreating}>{isEditSession? 'Edit cabin': 'Add cabin'}</Button>
       </StyledFormRow>
     </Form>
   );
