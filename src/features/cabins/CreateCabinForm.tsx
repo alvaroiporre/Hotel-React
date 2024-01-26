@@ -9,6 +9,7 @@ import { createEditCabin } from "../../services/apiCabins";
 import ICabin from "./ICabin";
 import toast from "react-hot-toast";
 import FormRow, { StyledFormRow } from "../../ui/FormRow";
+import { useCreateCabin } from "./useCreateCabin";
 
 
 function CreateCabinForm({ cabinToEdit }:{cabinToEdit: ICabin}) {
@@ -19,18 +20,9 @@ function CreateCabinForm({ cabinToEdit }:{cabinToEdit: ICabin}) {
     defaultValues: isEditSession ? cabinToEdit : {},
   });
   const { errors } = formState;
+  
+  const { isCreating, createCabin } = useCreateCabin();
   const queryClient = useQueryClient();
-  const { mutate: createCabin, isLoading: isCreating } = useMutation({
-    mutationFn: (newCabin: ICabin) => createEditCabin(newCabin),
-    onSuccess: () => {
-      toast.success("New cabin successfully created!");
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      });
-      reset();
-    },
-    onError: (err: Error) => toast.error(err.message),
-  });
 
   const { mutate: editCabin, isLoading: isEditing } = useMutation({
     mutationFn: (data:ICabin) => createEditCabin(data, data.id),
@@ -49,7 +41,7 @@ function CreateCabinForm({ cabinToEdit }:{cabinToEdit: ICabin}) {
   const onSubmit = (data) => {
     const image = typeof data.image === 'string'? data.image : data.image[0];
     if (isEditSession) editCabin({...data, image, id: cabinToEdit.id});
-    else createCabin({...data, image});
+    else createCabin({...data, image}, {onSuccess: () => reset()});
   };
   const onError = (errors) => {
     console.log(errors);
