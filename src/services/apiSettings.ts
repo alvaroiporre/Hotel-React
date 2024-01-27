@@ -7,6 +7,7 @@ export const getSettings = async () => {
     console.error(error);
     throw new Error("Settings could not be loaded");
   }
+
   return data;
 };
 
