@@ -11,7 +11,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
 
-function CreateCabinForm({ cabinToEdit }:{cabinToEdit: ICabin}) {
+function CreateCabinForm({ cabinToEdit }:{cabinToEdit?: ICabin}) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
