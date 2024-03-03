@@ -24,6 +24,7 @@ const AddCabin = () => {
   );
 };
 
+// Legacy approach without Compound Components
 // const AddCabin = () => {
 //   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
