@@ -26,4 +26,8 @@ const Form = styled.form<IForm>`
   font-size: 1.4rem;
 `;
 
+Form.defaultProps = {
+  type: 'regular',
+}
+
 export default Form;

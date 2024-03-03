@@ -10,12 +10,16 @@ import FormRow, { StyledFormRow } from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
+interface ICreateCabinFormProps {
+  cabinToEdit?: ICabin;
+  onClose?: () => void;
+}
 
-function CreateCabinForm({ cabinToEdit }:{cabinToEdit?: ICabin}) {
+function CreateCabinForm({ cabinToEdit, onClose }: ICreateCabinFormProps) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
-  
+
   const isEditSession = cabinToEdit !== undefined;
 
 
@@ -23,19 +27,31 @@ function CreateCabinForm({ cabinToEdit }:{cabinToEdit?: ICabin}) {
     defaultValues: isEditSession ? cabinToEdit : {},
   });
   const { errors } = formState;
-  
+
 
   const onSubmit = (data) => {
-    const image = typeof data.image === 'string'? data.image : data.image[0];
-    if (isEditSession) editCabin({...data, image, id: cabinToEdit.id}, {onSuccess: () => reset()});
-    else createCabin({...data, image}, {onSuccess: () => reset()});
+    const image = typeof data.image === 'string' ? data.image : data.image[0];
+
+    if (isEditSession) editCabin({ ...data, image, id: cabinToEdit.id }, {
+      onSuccess: () => {
+        reset();
+        onClose?.();
+      }
+    });
+
+    else createCabin({ ...data, image }, {
+      onSuccess: () => {
+        reset();
+        onClose?.();
+      }
+    });
   };
   const onError = (errors) => {
     console.log(errors);
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type={onClose ? "modal" : "regular"}>
       <FormRow label="Cabin name" error={errors?.name?.message as string}>
         <Input type="text" id="name" disabled={isCreating} {...register("name", {
           required: "This field is required",
@@ -78,15 +94,15 @@ function CreateCabinForm({ cabinToEdit }:{cabinToEdit?: ICabin}) {
 
       <FormRow label="Cabin photo" error={errors?.image?.message as string}>
         <FileInput id="image" accept="image/*" disabled={isWorking} {...register("image", {
-          required: isEditSession? false:"This field is required"
+          required: isEditSession ? false : "This field is required"
         })} />
       </FormRow>
       <StyledFormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" disabled={isWorking} >
+        <Button variation="secondary" type="reset" disabled={isWorking} onClick={() => onClose?.()}>
           Cancel
         </Button>
-        <Button disabled={isWorking}>{isEditSession? 'Edit cabin': 'Add cabin'}</Button>
+        <Button disabled={isWorking}>{isEditSession ? 'Edit cabin' : 'Add cabin'}</Button>
       </StyledFormRow>
     </Form>
   );
