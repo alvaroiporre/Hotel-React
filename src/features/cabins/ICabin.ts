@@ -3,7 +3,7 @@ export default interface ICabin {
   name: string;
   max_capacity: number;
   regular_price: number;
-  discount: 0;
+  discount: number;
   image: string | any;
   description: string;
 }

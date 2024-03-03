@@ -34,9 +34,8 @@ const CabinTable = () => {
         <div>Discount</div>
         <div></div>
       </Table.Header>
-      {
-        cabins?.map((cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id!}/>)
-      }
+      <Table.Body data={cabins!} render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id!}/>} />
+      
     </Table>
   );
 };
