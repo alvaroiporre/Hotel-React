@@ -12,7 +12,7 @@ const StyledFilter = styled.div`
 `;
 
 interface IFilterButtonProps {
-  active?: boolean;
+  active: boolean;
 }
 
 const FilterButton = styled.button<IFilterButtonProps>`
@@ -39,19 +39,25 @@ const FilterButton = styled.button<IFilterButtonProps>`
   }
 `;
 
-const Filter = () => {
+interface IFilterProps {
+  filterField: string;
+  options: {value: string, label: string}[];
+}
+
+const Filter = ({filterField, options}: IFilterProps) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentFilter = searchParams.get(filterField) || options[0].value;
+
   const handleClick = (value) => {
-    searchParams.set('discount', value);
+    searchParams.set(filterField, value);
     setSearchParams(searchParams);
   }
 
   return (
     <StyledFilter>
-      <FilterButton onClick={() => handleClick('all')}>All</FilterButton>
-      <FilterButton onClick={() => handleClick('no-discount')}>No discount</FilterButton>
-      <FilterButton onClick={() => handleClick('with-discount')}>With discount</FilterButton>
+      {options.map((option) => <FilterButton active={currentFilter === option.value} key={option.value} onClick={() => handleClick(option.value)}>{option.label}</FilterButton> )}
     </StyledFilter>
   );
 };
